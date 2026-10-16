@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vex_bg">#101014</color>
+    <color name="vex_panel">#1C1B23</color>
+    <color name="vex_purple">#A855F7</color>
+    <color name="vex_purple_dark">#7E22CE</color>
+    <color name="vex_text">#FFFFFF</color>
+    <color name="vex_muted">#9CA3AF</color>
+    <color name="vex_border">#2E2D38</color>
+</resources>

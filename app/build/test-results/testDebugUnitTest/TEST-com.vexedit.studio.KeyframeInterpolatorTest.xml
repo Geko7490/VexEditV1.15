@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vexedit.studio.KeyframeInterpolatorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-15T21:27:03" hostname="e2b.local" time="0.028">
+  <properties/>
+  <testcase name="interpolate_returnsBoundaryValuesOutsideTimeline" classname="com.vexedit.studio.KeyframeInterpolatorTest" time="0.021"/>
+  <testcase name="interpolate_performsLinearInterpolationBetweenKeyframes" classname="com.vexedit.studio.KeyframeInterpolatorTest" time="0.002"/>
+  <testcase name="interpolate_handlesEmptyKeyframesSafely" classname="com.vexedit.studio.KeyframeInterpolatorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

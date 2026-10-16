@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vex_bg">#101014</color>
+    <color name="vex_border">#2E2D38</color>
+    <color name="vex_muted">#9CA3AF</color>
+    <color name="vex_panel">#1C1B23</color>
+    <color name="vex_purple">#A855F7</color>
+    <color name="vex_purple_dark">#7E22CE</color>
+    <color name="vex_text">#FFFFFF</color>
+    <string name="app_name">VexEdit Studio</string>
+    <string name="audio_studio">Audio Studio</string>
+    <string name="effects_lab">Effects Lab</string>
+    <string name="export">EXPORT</string>
+    <string name="home">Home</string>
+    <string name="import_media">Import Media</string>
+    <string name="keyframe_editor">Keyframe Editor</string>
+    <string name="module_center">Module Center</string>
+    <string name="new_project">New Project</string>
+    <string name="projects">Projects</string>
+    <string name="quick_access_tools">Quick Access tools</string>
+    <string name="ready_to_create">Ready to create?</string>
+    <string name="recent_projects">Recent Projects</string>
+    <string name="search_projects">Search Projects…</string>
+    <string name="settings">Settings</string>
+    <string name="studio">Studio</string>
+    <style name="Theme.VexEditStudio" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#101014</item>
+        <item name="android:navigationBarColor">#101014</item>
+        <item name="android:windowBackground">#101014</item>
+    </style>
+</resources>

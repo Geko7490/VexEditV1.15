@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vexedit.studio.TimelineEngineTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-15T21:27:03" hostname="e2b.local" time="0.006">
+  <properties/>
+  <testcase name="clipDurationOnTimelineMs_computesCorrectlyWithSpeed" classname="com.vexedit.studio.TimelineEngineTest" time="0.0"/>
+  <testcase name="projectDurationMs_aggregatesAllClips" classname="com.vexedit.studio.TimelineEngineTest" time="0.001"/>
+  <testcase name="splitClip_createsLeftAndRightWithContinuousSourceTimeAndInterpolatedKeyframe" classname="com.vexedit.studio.TimelineEngineTest" time="0.0"/>
+  <testcase name="splitClip_rejectsEdgeCasesUnder100ms" classname="com.vexedit.studio.TimelineEngineTest" time="0.0"/>
+  <testcase name="duplicateClip_appendsToTrackEnd" classname="com.vexedit.studio.TimelineEngineTest" time="0.001"/>
+  <testcase name="deleteClip_removesSelectedClip" classname="com.vexedit.studio.TimelineEngineTest" time="0.001"/>
+  <testcase name="undoRedoManager_managesHistoryAccurately" classname="com.vexedit.studio.TimelineEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

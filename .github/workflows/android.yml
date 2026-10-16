@@ -1,0 +1,127 @@
+name: Android CI - VexEdit Studio
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Job 1: Unit tests (runs independently of APK build)
+  unit-tests:
+    name: Unit Tests (JVM)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate Gradle Wrapper
+        run: ./gradlew --version
+
+      - name: Run JVM Unit Tests
+        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+
+      - name: Upload Test Results XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: app/build/test-results/testDebugUnitTest/
+          if-no-files-found: warn
+
+      - name: Upload Test Report HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-html-report
+          path: app/build/reports/tests/testDebugUnitTest/
+          if-no-files-found: warn
+
+  # Job 2: Debug APK Build (independent of unit test job; tests failing will not block build debugging)
+  build-debug-apk:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify Debug APK exists
+        run: |
+          APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+          if [ -s "$APK_PATH" ]; then
+            echo "SUCCESS: Debug APK found at $APK_PATH"
+            ls -lh "$APK_PATH"
+          else
+            echo "ERROR: Debug APK not found or is empty at $APK_PATH"
+            exit 1
+          fi
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vexedit-studio-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  # Job 3: Optional Release APK Build (safe secrets check via env variable)
+  build-release-apk:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Check Signing Secrets & Build
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
+            echo "Signing secrets are present. Decoding keystore..."
+            echo "$KEYSTORE_BASE64" | base64 -d > /tmp/release.keystore
+            ./gradlew assembleRelease --no-daemon --stacktrace
+            echo "Signed Release APK generated."
+          else
+            echo "NOTICE: Release signing secrets (KEYSTORE_BASE64, etc.) are not configured in repository secrets."
+            echo "Skipping signed release build. An unsigned release is not presented as signed."
+            ./gradlew assembleRelease --no-daemon --stacktrace || echo "Release build requires keystore configuration."
+          fi

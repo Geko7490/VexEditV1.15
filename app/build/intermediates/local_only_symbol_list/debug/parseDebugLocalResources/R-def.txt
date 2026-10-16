@@ -1,0 +1,30 @@
+R_DEF: Internal format may change without notice
+local
+color vex_bg
+color vex_border
+color vex_muted
+color vex_panel
+color vex_purple
+color vex_purple_dark
+color vex_text
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string audio_studio
+string effects_lab
+string export
+string home
+string import_media
+string keyframe_editor
+string module_center
+string new_project
+string projects
+string quick_access_tools
+string ready_to_create
+string recent_projects
+string search_projects
+string settings
+string studio
+style Theme.VexEditStudio
